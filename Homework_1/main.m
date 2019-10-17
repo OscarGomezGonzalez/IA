@@ -1,5 +1,5 @@
 %% Initialization
-%% clear ; close all; clc
+ clear ; close all; clc
 
 %% ======================= HOMEWORK 1 =======================
 
@@ -32,8 +32,14 @@ m = length(y_test);
 % primero subconjunto del desplazamiento
 X_sub = X_train(:,2);
 
+%añade columna de ceros a conjunto de X
+X_sub = [ones(size(X_sub, 1), 1) X_sub];
+
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,2);
+
+%añade columna de ceros a conjunto de X
+X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
 theta_des = normalEqn(X_sub, y_train);
@@ -48,8 +54,15 @@ error_des = errorCalculation(m, pre, y_test);
 %---------------------------------------
 % subconjunto del peso
 X_sub = X_train(:,4);
+
+%añade columna de ceros a conjunto de X
+X_sub = [ones(size(X_sub, 1), 1) X_sub];
+
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,4);
+
+%añade columna de ceros a conjunto de X
+X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
 theta_peso = normalEqn(X_sub, y_train);
@@ -65,8 +78,14 @@ error_peso = errorCalculation(m, pre, y_test);
 % subconjunto de la aceleracion
 X_sub = X_train(:,5);
 
+%añade columna de ceros a conjunto de X
+X_sub = [ones(size(X_sub, 1), 1) X_sub];
+
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,5);
+
+%añade columna de ceros a conjunto de X
+X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
 theta_aceleracion = normalEqn(X_sub, y_train);
@@ -80,8 +99,15 @@ error_aceleracion = errorCalculation(m, pre, y_test);
 
 %---------------------------------------
 % calculo del conjunto total de datos
+
+%añade columna de ceros a conjunto de X
+X_train = [ones(size(X_train, 1), 1) X_train];
+
 % aplica la regresion con la ec.normal 
 theta_total = normalEqn(X_train, y_train);
+
+%añade columna de ceros a conjunto de X
+X_test = [ones(size(X_test , 1), 1) X_test];
 
 % Predecir el conjunto de test X_test usando el modelo obtenido theta
 pre = X_test * theta_total;
@@ -92,14 +118,18 @@ error_total = errorCalculation(m, pre, y_test);
 %---------------------------------------
 % Impresion de resultados
 fprintf('Valores de Theta:...\n')
-fprintf('Theta desplazamiento: %d, Error desplazamiento %d\n', theta_des, error_des)
-fprintf('Theta peso: %d, Error peso %d\n', theta_peso, error_peso)
-fprintf('Theta aceleracion: %d, Error aceleracion %d\n', theta_aceleracion, error_aceleracion)
+fprintf('Theta desplazamiento: [%d,%d], Error desplazamiento %d\n', theta_des(1,1),theta_des(2,1), error_des)
+fprintf('Theta peso: [%d,%d], Error peso %d\n', theta_peso(1,1), theta_peso(2,1), error_peso)
+fprintf('Theta aceleracion: [%d,%d], Error aceleracion %d\n', theta_aceleracion(1,1), theta_aceleracion(2,1), error_aceleracion)
 
 % Impresion de resultados totales
 fprintf('Theta total: \n')
 theta_total
 fprintf('Error total: %d\n', error_total)
+
+%% -----------------Apartado 3-------------------
+% imprimir graficas con los modelos y estadisticas
+visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
 
 
 %% ======================= 4 =======================
