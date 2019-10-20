@@ -135,11 +135,11 @@ visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
 %% ======================= 4 =======================
 
 %------------desplazamiento----------
-iterations=10;
+iterations=5000;
 iterations2=10000;
 iterations3=10000;
 iterations4=10000;
-alpha=0.00001;
+alpha=0.00000001;
 alpha2=0.000000001;
 alpha3=0.000000001;
 alpha4=0.000000001;
@@ -174,7 +174,7 @@ fprintf('\t Con atributo 2 \t Con atributo 4 \t Con atributo 5 \t Conjunto compl
 fprintf('\n Error Ecuación normal \t %d \t %d \t %d \t %d',error_des,error_peso,error_aceleracion,error_total)
 fprintf('\n Error Gradiente \t %d \t %d \t %d \t %d',error_des2,error_peso2,error_aceleracion2,error_total2)
 fprintf('\n Alpha \t %d \t %d \t %d \t %d',alpha,alpha2,alpha3,alpha4)
-fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d',iterations,iterations2,iterations3,iterations4)
+fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d \n',iterations,iterations2,iterations3,iterations4)
 
 %%%%% pintamos la grafica de convergencia
 %graficaConvergencia(J_history, iterations);
