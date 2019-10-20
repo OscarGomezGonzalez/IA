@@ -33,19 +33,19 @@ m = length(y_test);
 X_sub = X_train(:,2);
 
 %añade columna de ceros a conjunto de X
-X_sub = [ones(size(X_sub, 1), 1) X_sub];
+X_subDes = [ones(size(X_sub, 1), 1) X_sub];
 
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,2);
 
 %añade columna de ceros a conjunto de X
-X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
+X_test_Des = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
-theta_des = normalEqn(X_sub, y_train);
+theta_des = normalEqn(X_subDes, y_train);
 
 % Predecir el conjunto de test X_test usando el modelo obtenido theta
-pre = X_test_aux * theta_des;
+pre = X_test_Des * theta_des;
 
 % calcula error
 error_des = errorCalculation(m, pre, y_test); 
@@ -56,19 +56,19 @@ error_des = errorCalculation(m, pre, y_test);
 X_sub = X_train(:,4);
 
 %añade columna de ceros a conjunto de X
-X_sub = [ones(size(X_sub, 1), 1) X_sub];
+X_subPes = [ones(size(X_sub, 1), 1) X_sub];
 
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,4);
 
 %añade columna de ceros a conjunto de X
-X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
+X_test_Pes = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
-theta_peso = normalEqn(X_sub, y_train);
+theta_peso = normalEqn(X_subPes, y_train);
 
 % Predecir el conjunto de test X_test usando el modelo obtenido theta
-pre = X_test_aux * theta_peso;
+pre = X_test_Pes * theta_peso;
 
 % calcula error
 error_peso = errorCalculation(m, pre, y_test); 
@@ -79,19 +79,19 @@ error_peso = errorCalculation(m, pre, y_test);
 X_sub = X_train(:,5);
 
 %añade columna de ceros a conjunto de X
-X_sub = [ones(size(X_sub, 1), 1) X_sub];
+X_subAce = [ones(size(X_sub, 1), 1) X_sub];
 
 % selecciona el subconjunto de entrenamiento
 X_test_aux = X_test(:,5);
 
 %añade columna de ceros a conjunto de X
-X_test_aux = [ones(size(X_test_aux, 1), 1) X_test_aux];
+X_test_Ace = [ones(size(X_test_aux, 1), 1) X_test_aux];
 
 % aplica la regresion con la ec.normal 
-theta_aceleracion = normalEqn(X_sub, y_train);
+theta_aceleracion = normalEqn(X_subAce, y_train);
 
 % Predecir el conjunto de test X_test usando el modelo obtenido theta
-pre = X_test_aux * theta_aceleracion;
+pre = X_test_Ace * theta_aceleracion;
 
 % calcula error
 error_aceleracion = errorCalculation(m, pre, y_test); 
@@ -135,6 +135,46 @@ visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
 %% ======================= 4 =======================
 
 %------------desplazamiento----------
+iterations=100;
+alpha=0.00001;
+
+X_subDes;
+X_train;
+X_test_Des;
+X_test;
+theta_aceleracion;
+theta_total;
+error_des;
+%---------------------------------------
+%desplazamiento
+%añade columna de ceros a conjunto de X
+X_subDes = [ones(size(X_subDes, 1), 1) X_subDes];
+theta_ones = zeros(size(X_subDes , 1)+1,1);
+theta_des = gradientDescent(X_subDes, y_train, theta_ones, alpha, iterations);
+pre = X_test_Des * theta_des;
+error_des = errorCalculation(m, pre, y_test); 
+%---------------------------------------
+%peso
+X_subPes = [ones(size(X_subPes, 1), 1) X_subPes];
+theta_ones = zeros(size(X_subPes , 1)+1,1);
+theta_peso = gradientDescent(X_subPes, y_train, theta_ones, alpha, iterations);
+pre = X_test_Pes * theta_peso;
+error_peso = errorCalculation(m, pre, y_test);
+%---------------------------------------
+%aceleracion
+X_subAce = [ones(size(X_subAce, 1), 1) X_subAce];
+theta_ones = zeros(size(X_subAce , 1)+1,1);
+theta_aceleracion = gradientDescent(X_subAce, y_train, theta_ones, alpha, iterations);
+pre = X_test_Ace * theta_aceleracion;
+error_aceleracion = errorCalculation(m, pre, y_test);
+%---------------------------------------
+%conjunto completo
+X_train = [ones(size(X_train, 1), 1) X_train];
+theta_ones = zeros(size(X_train , 1)+1,1);
+theta_total = gradientDescent(X_train, y_train, theta_ones, alpha, iterations);
+pre = X_test * theta_total;
+error_total = errorCalculation(m, pre, y_test);
+
 
 
 
