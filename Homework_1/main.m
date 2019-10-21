@@ -129,43 +129,43 @@ fprintf('Error total: %d\n', error_total)
 
 %% -----------------Apartado 3-------------------
 % imprimir graficas con los modelos y estadisticas
-visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
+%visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
 
 
 %% ======================= 4 =======================
 
 %------------desplazamiento----------
-iterations=5000;
-iterations2=10000;
-iterations3=10000;
-iterations4=10000;
-alpha=0.00000001;
-alpha2=0.000000001;
-alpha3=0.000000001;
-alpha4=0.000000001;
+iterationsDes=500;
+iterationsPes=1000;
+iterationsAce=200;
+iterationsTotal=100;
+alphaDes=0.00000001;
+alphaPes=0.00000000005;
+alphaAce=0.00000000000001;
+alphaTotal=0.000000000003;
 
 %---------------------------------------
 %desplazamiento
 theta_ones = zeros(size(X_subDes , 2),1);
-[theta_des,J_historyDes]= gradientDescent(X_subDes, y_train, theta_ones, alpha, iterations);
+[theta_des,J_historyDes]= gradientDescent(X_subDes, y_train, theta_ones, alphaDes, iterationsDes);
 pre = X_test_Des * theta_des;
 error_des2 = errorCalculation(m, pre, y_test); 
 %---------------------------------------
 %peso
 theta_ones = zeros(size(X_subPes , 2),1);
-[theta_peso,J_historyPes] = gradientDescent(X_subPes, y_train, theta_ones, alpha2, iterations2);
+[theta_peso,J_historyPes] = gradientDescent(X_subPes, y_train, theta_ones, alphaPes, iterationsPes);
 pre = X_test_Pes * theta_peso;
 error_peso2 = errorCalculation(m, pre, y_test);
 %---------------------------------------
 %aceleracion
 theta_ones = zeros(size(X_subAce , 2),1);
-[theta_aceleracion,J_historyAce] = gradientDescent(X_subAce, y_train, theta_ones, alpha3, iterations3);
+[theta_aceleracion,J_historyAce] = gradientDescent(X_subAce, y_train, theta_ones, alphaAce, iterationsAce);
 pre = X_test_Ace * theta_aceleracion;
 error_aceleracion2 = errorCalculation(m, pre, y_test);
 %---------------------------------------
 %conjunto completo
 theta_ones = zeros(size(X_train , 2),1);
-[theta_total,J_history] = gradientDescent(X_train, y_train, theta_ones, alpha4, iterations4);
+[theta_total,J_history] = gradientDescent(X_train, y_train, theta_ones, alphaTotal, iterationsTotal);
 pre = X_test * theta_total;
 error_total2 = errorCalculation(m, pre, y_test);
 
@@ -173,11 +173,11 @@ error_total2 = errorCalculation(m, pre, y_test);
 fprintf('\t Con atributo 2 \t Con atributo 4 \t Con atributo 5 \t Conjunto completo \n')
 fprintf('\n Error Ecuación normal \t %d \t %d \t %d \t %d',error_des,error_peso,error_aceleracion,error_total)
 fprintf('\n Error Gradiente \t %d \t %d \t %d \t %d',error_des2,error_peso2,error_aceleracion2,error_total2)
-fprintf('\n Alpha \t %d \t %d \t %d \t %d',alpha,alpha2,alpha3,alpha4)
-fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d \n',iterations,iterations2,iterations3,iterations4)
+fprintf('\n Alpha \t %d \t %d \t %d \t %d',alphaDes,alphaPes,alphaAce,alphaTotal)
+fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d \n',iterationsDes,iterationsPes,iterationsAce,iterationsTotal)
 
 %%%%% pintamos la grafica de convergencia
-%graficaConvergencia(J_history, iterations);
+graficaConvergencia(J_history, iterationsTotal);
 
 
 
