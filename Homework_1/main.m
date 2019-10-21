@@ -129,55 +129,58 @@ fprintf('Error total: %d\n', error_total)
 
 %% -----------------Apartado 3-------------------
 % imprimir graficas con los modelos y estadisticas
-%visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
+visualizarDatos(theta_des,theta_peso,theta_aceleracion,data);
 
 
 %% ======================= 4 =======================
-
-%------------desplazamiento----------
-iterations=500;
-iterations2=1000;
-iterations3=1000;
-iterations4=1000;
-alpha=0.00001;
-alpha2=0.000001;
-alpha3=0.000001;
-alpha4=0.000001;
+% valores de iteraciones y alpha
+iterationsDes=5000;
+iterationsPes=30000;
+iterationsAce=30000;
+iterationsTotal=30000;
+alphaDes=0.00001;
+alphaPes=0.0000001;
+alphaAce=0.00001;
+alphaTotal=0.0000001;
 
 %---------------------------------------
 %desplazamiento
+%inicializa la teta a 0
 theta_ones = zeros(size(X_subDes , 2),1);
-[theta_des,J_historyDes]= gradientDescent(X_subDes, y_train, theta_ones, alpha, iterations);
-pre = X_test_Des * theta_des;
-error_des2 = errorCalculation(m, pre, y_test); 
+% calcula el historial de costes
+J_historyDes = gradientDescent(X_subDes, y_train, theta_ones, alphaDes, iterationsDes, X_test_Des, y_test);
+
 %---------------------------------------
 %peso
+%inicializa la teta a 0
 theta_ones = zeros(size(X_subPes , 2),1);
-[theta_peso,J_historyPes] = gradientDescent(X_subPes, y_train, theta_ones, alpha2, iterations2);
-pre = X_test_Pes * theta_peso;
-error_peso2 = errorCalculation(m, pre, y_test);
+% calcula el historial de costes
+J_historyPes = gradientDescent(X_subPes, y_train, theta_ones, alphaPes, iterationsPes, X_test_Pes, y_test);
+
 %---------------------------------------
 %aceleracion
+%inicializa la teta a 0
 theta_ones = zeros(size(X_subAce , 2),1);
-[theta_aceleracion,J_historyAce] = gradientDescent(X_subAce, y_train, theta_ones, alpha3, iterations3);
-pre = X_test_Ace * theta_aceleracion;
-error_aceleracion2 = errorCalculation(m, pre, y_test);
+% calcula el historial de costes
+J_historyAce = gradientDescent(X_subAce, y_train, theta_ones, alphaAce, iterationsAce, X_test_Ace, y_test);
+
 %---------------------------------------
 %conjunto completo
+%inicializa la teta a 0
 theta_ones = zeros(size(X_train , 2),1);
-[theta_total,J_history] = gradientDescent(X_train, y_train, theta_ones, alpha4, iterations4);
-pre = X_test * theta_total;
-error_total2 = errorCalculation(m, pre, y_test);
+% calcula el historial de costes
+J_history = gradientDescent(X_train, y_train, theta_ones, alphaTotal, iterationsTotal, X_test, y_test);
 
 %datos de l tabla
 fprintf('\t Con atributo 2 \t Con atributo 4 \t Con atributo 5 \t Conjunto completo \n')
-fprintf('\n Error Ecuación normal \t %d \t %d \t %d \t %d',error_des,error_peso,error_aceleracion,error_total)
-fprintf('\n Error Gradiente \t %d \t %d \t %d \t %d',error_des2,error_peso2,error_aceleracion2,error_total2)
-fprintf('\n Alpha \t %d \t %d \t %d \t %d',alpha,alpha2,alpha3,alpha4)
-fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d \n',iterations,iterations2,iterations3,iterations4)
+fprintf('\n Error Ecuación normal \t %d \t %d \t %d \t %d \n',error_des,error_peso,error_aceleracion,error_total)
+fprintf('\n Error Gradiente \t %d \t %d \t %d \t %d',J_historyDes(iterationsDes),J_historyPes(iterationsPes),J_historyAce(iterationsAce),J_history(iterationsTotal))
+%fprintf(' %d \n',J_history(iterationsTotal))
+fprintf('\n Alpha \t %d \t %d \t %d \t %d \n',alphaDes,alphaPes,alphaAce,alphaTotal)
+fprintf('\n Nº de iteraciones \t %d \t %d \t %d \t %d \n',iterationsDes,iterationsPes,iterationsAce,iterationsTotal)
 
 %%%%% pintamos la grafica de convergencia
-graficaConvergencia(J_history, iterations);
+graficaConvergencia(J_history);
 
 
 
