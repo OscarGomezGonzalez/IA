@@ -1,0 +1,8 @@
+Apartado 3 de homework2
+
+Llamas mapfeature para ampliar num atributos
+
+la regularizacion es el descenso del gradiente regularizado
+cambias la funcion de regularizacion(pag40 ebt4) y la del gradiente falta la de theta
+la funcion de regularizacion reduce la theta para reducir el overfitting+
+la theta se calcula theta = theta - alpha * gradiente(funcion del calculo de gradientede la funcion del coste)

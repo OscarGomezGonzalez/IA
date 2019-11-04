@@ -36,12 +36,11 @@ iterations = 10;
 % dentro del descenso del gradiente imprimos los diez primeros valores de thetas
 [theta,J_history] = gradientDescent(X, y, initial_theta, alpha, iterations);
 
-
-
 %gráfica de convergencia de descenso del gradiente
+%graficaConvergencia(J_history);
 
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
-plotDecisionBoundary();
+%plotDecisionBoundary(theta, X, y);
 
 
 %% Apartado 3
@@ -55,7 +54,7 @@ mapFeature(); %devuelve una matriz de 28 atributos
 
 %necesitamos que la tasa de acierto sea mayor o igual que 82%
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
-plotDecisionBoundary();
+%plotDecisionBoundary();
 
 
 
