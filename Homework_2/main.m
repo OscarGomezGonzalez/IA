@@ -28,7 +28,7 @@ fprintf('Cost at initial theta(zeros): %f\n', initial_cost);
 fprintf('Gradient at initial theta (zeros): %f\n', grad);
 
 %inicializamos valores
-alpha = 0.6;
+alpha = 0.6; % hemos puesto un alfa muy pequeño ya que si ponemos 1 no obtenemos resultados validos(NaN)
 iterations = 10;
 
 %% Apartado 2
@@ -37,11 +37,18 @@ iterations = 10;
 [theta,J_history] = gradientDescent(X, y, initial_theta, alpha, iterations);
 
 %gráfica de convergencia de descenso del gradiente
-graficaConvergencia(J_history);
+%graficaConvergencia(J_history);
 
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
-plotDecisionBoundary(theta, X, y);
+%plotDecisionBoundary(theta, X, y);
 
+%imprimir la tasa de acierto y la grafica con la frontera de decisión
+%prediccion
+p = predict(theta',X');
+%tasa de acierto del modelo
+percent = mean((p==y))*100;
+%imprimimos tasa de acierto 
+fprintf('La tasa de acierto: %d\n', percent(1));
 
 %% Apartado 3
 %alfa, número de iteraciones y tasa de acierto
@@ -79,9 +86,9 @@ percent = mean((p==y))*100;
 
 %imprimimos tasa de acierto con el alfa y el num de iteraciones
 fprintf('----- Resultados Ej3 -----\n');
-fprintf('Valor de alfa:%f\n', alpha);
+fprintf('Valor de alfa:%.9f\n', alpha);
 fprintf('Valor del numero de iteraciones: %d\n', iterations);
-fprintf('La tasa de acierto: %d\n', percent);
+fprintf('La tasa de acierto: %d\n', percent(1));
 
 %frontera de decision
 plotDecisionBoundary(theta, X3, y);
