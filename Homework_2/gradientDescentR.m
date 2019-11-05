@@ -1,4 +1,4 @@
-function [theta, J_history] = gradientDescentR(X, y, initial_theta, alpha, iterations)
+function [theta, J_history] = gradientDescentR(X, y, theta, alpha, iterations)
   
   %inicializamos lamda a 1
   lambda = 1;
@@ -16,7 +16,7 @@ function [theta, J_history] = gradientDescentR(X, y, initial_theta, alpha, itera
     % theta se calcula con regularizacion multiplicando por la formula del gradiente del coste
     theta = theta - alpha * (1/m)*X'*(h-y) + (lambda/m)*[0;theta(2:n)];
     % obtenemos el historial de coste
-    J_history(iter) = costFunctionR(X, y, theta);
+    J_history(iter) = costFunctionR(X, y, m, n, theta, lambda);
     
     
   endfor

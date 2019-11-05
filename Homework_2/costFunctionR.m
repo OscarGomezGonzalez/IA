@@ -1,4 +1,4 @@
-function [cost, grad] = costFunctionR(X, m, n, theta)
+function [cost, grad] = costFunctionR(X, y, m, n, theta, lambda)
   
  
   % calcula el sigmoide
