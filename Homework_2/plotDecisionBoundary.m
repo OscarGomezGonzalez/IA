@@ -3,6 +3,7 @@ function plotDecisionBoundary(theta, X, y)
 %the decision boundary defined by theta
    
 % Plot Data
+figure%added by me
 plotData(X(:,2:3), y);
 hold on
 

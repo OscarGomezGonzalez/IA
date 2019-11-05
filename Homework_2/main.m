@@ -45,12 +45,18 @@ iterations = 10;
 
 %% Apartado 3
 %alfa, número de iteraciones y tasa de acierto
+alpha = 1;
+iterations = 10;
 
 %crear mas atributos atraves de mapFeature
 mapFeature(); %devuelve una matriz de 28 atributos
 
+%aplicar el descenso del gradiente regularizado
+[theta, J_history] = gradientDescentR(X, y, initial_theta, alpha, iterations);
+
 %necesitamos que el gradiente converja
 %gráfica de convergencia de descenso del gradiente
+%graficaConvergencia(J_history);
 
 %necesitamos que la tasa de acierto sea mayor o igual que 82%
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
