@@ -14,29 +14,56 @@ plotData(X, y);
 
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 2;  % tenemos una por cada atributo
-hidden_layer_size = 6;   % 25 hidden units
-num_labels = 2;          %  tenemos una etiqueta por cada clase
+hidden_layer_size = 2;   % 
+num_labels = 1;          %  tenemos dos clases
                           
 % tamaño de X
 m = size(X, 1);
 
-% declaracion de las Thetas
-Theta1 =  randInitializeWeights(input_layer_size, hidden_layer_size);
-Theta2 =  randInitializeWeights(hidden_layer_size, num_labels);
+% Apartado 2
+
+% declaracion de las Thetas con pesos iniciales en el enunciado
+initial_Theta1 = [-0.0893, -0.0789, 0.0147
+          0.1198, -0.1122, 0.0916];
+initial_Theta2 = [0.0406, -0.0743, -0.0315];
 
 % Unroll parameters 
-nn_params = [Theta1(:) ; Theta2(:)];
+initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
 fprintf('\nFeedforward Using Neural Network ...\n')
 
 % Weight regularization parameter (we set this to 0 here).
 lambda = 0;
 
-[J grad] = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
+[J grad] = nnCostFunction(initial_nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
 
-fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-         '\n(this value should be about 0.287629)\n'], J);
+% imprime el coste inicial
+fprintf(['Cost: %f '...
+         '\n(this value should be about 0.6932)\n'], J);
+         
+% imprime el gradiente
+fprintf('Grad: ');
+grad
+
+% descenso del gradiente
+options = optimset('GradObj', 'on','MaxIter', 1000);
+nn_params = fminunc(@(t)(nnCostFunction(t,input_layer_size,hidden_layer_size,num_labels,X,y)), initial_nn_params, options);
+
+%Reshape thetas
+Theta1 =  reshape(nn_params(1:hidden_layer_size * (input_layer_size +1)),
+  hidden_layer_size,(input_layer_size +1));;
+Theta2 = reshape(nn_params(((hidden_layer_size * (input_layer_size +1)) +1):
+  end),num_labels,(hidden_layer_size +1));
+
+printf("Thetas tras la optimizacion.\n");
+Theta1
+printf("\n");
+Theta2
+printf("\n");
+
+% Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
+plot_decision_boundary(Theta1,Theta2, X, y)
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
@@ -55,8 +82,7 @@ fprintf('\nInitializing Neural Network Parameters ...\n')
 initial_Theta1 = randInitializeWeights(input_layer_size, hidden_layer_size);
 initial_Theta2 = randInitializeWeights(hidden_layer_size, num_labels);
 
-% Unroll parameters
-initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
+
 
 
 %% =================== EJ4. Training NN ===================
@@ -67,20 +93,6 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %  long as we provide them with the gradient computations.
 %
 fprintf('\nTraining Neural Network... \n')
-
-%  After you have completed the assignment, change the MaxIter to a larger
-%  value to see how more training helps.
-
-
-
-% Create "short hand" for the cost function to be minimized
-
-
-
-% Now, costFunction is a function that takes in only one argument (the
-% neural network parameters)
-
-
 
 % Obtain Theta1 and Theta2 back from nn_params
 % opciones de la funcion
