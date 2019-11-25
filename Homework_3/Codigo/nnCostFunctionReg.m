@@ -1,4 +1,4 @@
-function [J grad] = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda)
+function [J grad] = nnCostFunctionReg(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda)
   
   % volvemos a "enrollar" las thetas en matrices para poder calcular el coste
   % el theta uno sera desde 1 hasta 25(hidden_layer) hasta input + 1(bias)
@@ -38,12 +38,9 @@ function [J grad] = nnCostFunction(nn_params, input_layer_size, hidden_layer_siz
   
   if lambda
   
-    J += (lambda/(2*m))*(sum(sum(Theta1(:, 2:end).^2, 2)) + sum(sum(Theta2(:,2:end).^2, 2)));
-    DELTA1 += (lambda/m)*[zeros(size(Theta1,1), 1) Theta1(:, 2:end)];
-    DELTA2 += (lambda/m)*[zeros(size(Theta2,1), 1) Theta2(:, 2:end)];
+    
   
   endif
-  
   % ahora tenemos que considerar que los vectores fueron reshaped
   % por lo que ahora debemos volverlos a su estado original en una sola fila
   grad = [DELTA1(:); DELTA2(:)];
