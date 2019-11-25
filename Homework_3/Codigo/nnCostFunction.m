@@ -2,28 +2,28 @@ function [J grad] = nnCostFunction(nn_params, input_layer_size, hidden_layer_siz
   
   % volvemos a "enrollar" las thetas en matrices para poder calcular el coste
   % el theta uno sera desde 1 hasta 25(hidden_layer) hasta input + 1(bias)
-  theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
+  Theta1 = reshape(nn_params(1:(hidden_layer_size * (input_layer_size + 1))), ...
                 hidden_layer_size, (input_layer_size+1));
                 
-  theta2 = reshape(nn_params((1+hidden_layer_size * (input_layer_size+1)):end), ...
+  Theta2 = reshape(nn_params((1+hidden_layer_size * (input_layer_size+1)):end), ...
                  num_labels, (hidden_layer_size+1));
      
   suma = 0;     
   m = size(X,1);  
 % inicializamos una matriz de ceros, delta1 calculara la modificacion
-  DELTA1 = zeros(size(theta1));
-  DELTA2 = zeros(size(theta2));
+  DELTA1 = zeros(size(Theta1));
+  DELTA2 = zeros(size(Theta2));
   
   for i=1:m
     
-    [a1 a2 a3] = fordward(theta1, theta2, X,i);
+    [a1 a2 a3] = fordward(Theta1, Theta2, X,i);
     %devuelve vector de 0 menos la posicion de i
     aux = (1:num_labels == y(i));
     h = a3;
     suma = suma + aux * log(h) + (1-aux) * log(1-h);
      
     delta3 = a3 - aux';
-    delta2 = (theta2' * delta3) .* ((1-a2) .* a2);
+    delta2 = (Theta2' * delta3) .* ((1-a2) .* a2);
     delta2 = delta2(2:end);
     
     DELTA1 = DELTA1 + delta2 * a1';
