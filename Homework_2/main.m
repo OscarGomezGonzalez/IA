@@ -37,10 +37,10 @@ iterations = 10;
 [theta,J_history] = gradientDescent(X, y, initial_theta, alpha, iterations);
 
 %gráfica de convergencia de descenso del gradiente
-%graficaConvergencia(J_history);
+graficaConvergencia(J_history);
 
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
-%plotDecisionBoundary(theta, X, y);
+plotDecisionBoundary(theta, X, y);
 
 %imprimir la tasa de acierto y la grafica con la frontera de decisión
 %prediccion
