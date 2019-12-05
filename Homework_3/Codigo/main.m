@@ -61,7 +61,7 @@ Theta2
 printf("\n");
 
 % Cargamos el titulo
-titulo = "Resultado para 2 neuronas en la capa oculta Apartado 2"
+titulo = "Resultado para 4 neuronas en la capa oculta Apartado 2"
 
 % Para terminar el Apartado 2 imprimimos la grafica con la frontera de decision
 plot_decision_boundary(Theta1,Theta2, X, y, titulo);
@@ -76,16 +76,20 @@ checkNNGradients;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
+pred = predict(Theta1, Theta2, X);
+
+fprintf('Exactitud con %d neuronas: %f\n', hidden_layer_size, mean(pred == y)*100);
+pause;
 
 %%Apartado 3
 %experimentamos con diferentes numero de neuronas en la capa oculta
 
 %Guardamos en un array los tamaños de la capa a probar para iterar sobre ellos
-hidden_layer_sizes= [1,2,3,4,5,20,50];
+hidden_layer_sizes= [1,2,3,4,5,10];
 
 %guardamos los titulos en un array
 titulos = {" 1 neurona"; " 2 neuronas"; " 3 neuronas"; " 4 neuronas"; " 5 neuronas"; 
-           " 20 neuronas"; " 50 neuronas";};
+           " 10 neuronas"; " 50 neuronas";};
 printf("Thetas tras la optimizacion.\n");
 
 % bucle que imprime que imprime las predicciones para cada prueba de num de neuronas
