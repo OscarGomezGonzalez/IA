@@ -1,0 +1,13 @@
+NOMBRE DEL PROBLEMA: Problema del puente y el farol
+
+Estados: tendremos un array de enteros indicando la posiciona la que se encuentran, (1-no ha cruzado, 0-si ha cruzado) ademas las ultimas dos posiciones del array indicaran la posicion del farolillo y el tiempo consumido respectivamente. 
+Estado inicial: El estado inicial sera e array todo a 1( nadie ha cruzado) excepto la ultima posicion con el tiempo, que se inicializara a 0
+Acciones: Una accion se considerara cruzar el puente por uno o dos personas ademas del farolillo, para esto se cambiaran las posiciones en el array a 0 segun vayan cruzando de un lado a otro
+Modelo de transición: Se transicionara al cruzar, cambiando el valor de la posicion del array de 1 a 0 o viceversa dependiendo de hacia que lado crucemos
+Función objetivo: Todos han cruzado (array entero a 0), y el tiempo maximo es de 15 no sobrepasando dicho valor
+Coste: Consideraremos como coste el tiempo tardado, y el numero de pasos, tendremos en cuenta que el tiempo nunca puede reducirse a 15 ni sobrepasarse ademas el numero de pasos optimos es 5
+Observaciones: Tendremos un array con los valores de tiempo que cada persona necesita para cruzar el rio, estas posiciones seran relativas al array de estado, es decir, el primero tendra el tiempo en la primera posicion del array de tiempo para cruzar(crossingTimes)
+
+-------------------------
+
+Para la realizacion de la heuristica hemos pensado no considerar ni la restriccion de tiempo ni la del farolillo. Para el calculo de dicha heuristica recorreremos el array de estados, buscando entre las personas la que no hayan cruzado aun y calcularemos el total de numero de personas que aun no han cruzado.
