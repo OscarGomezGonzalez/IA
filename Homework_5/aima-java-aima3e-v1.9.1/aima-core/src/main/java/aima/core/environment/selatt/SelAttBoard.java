@@ -37,8 +37,8 @@ public class SelAttBoard {
     public SelAttBoard(SelAttBoard copyBoard) {
         this(copyBoard.getState());
     }
-    
-    public int getNumAtt(){
+
+    public int getNumAtt() {
         return correlationsAtt[0].length;
     }
 
@@ -90,27 +90,27 @@ public class SelAttBoard {
         double res;
         int aux;
 
-        if (row < col) {
+        if (row > col) {
 
             aux = col;
             col = row;
             row = aux;
 
-            res = correlationsAtt[row][col];
+            res = correlationsAtt[row][col - row - 1];
 
         } else if (row == col) {
             res = 1;
         } else {
-            res = correlationsAtt[row][col];
+            res = correlationsAtt[row][col - row - 1];
         }
 
         return res;
     }
-    
+
     /**
-     *  returns value of class correlation
+     * returns value of class correlation
      */
-    public double getCorrelationClass(int pos){
+    public double getCorrelationClass(int pos) {
         return correlationsClass[pos];
     }
 
@@ -143,8 +143,11 @@ public class SelAttBoard {
 
     @Override
     public String toString() {
-        String retVal = "[" + state[0] + ", " + state[1] + ", " + state[2] + ", " + state[3] + "] " + state[4];
+        String retVal = "[" + state[0] + ", " + state[1] + ", " + state[2] + ", "
+                + state[3] + ", " + state[4] + ", " + state[5] + ", " + state[6] + " ,"
+                + state[7] + ", " + state[8] + "]";
         return retVal;
     }
 
+    
 }

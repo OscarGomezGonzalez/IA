@@ -8,6 +8,7 @@ import aima.core.util.CancelableThread;
 import aima.core.util.Util;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -170,6 +171,21 @@ public class GeneticAlgorithmSelAtt<A> {
         return bestIndividual;
     }
 
+    public Individual<A> retrieveWorstIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
+        Individual<A> worstIndividual = null;
+        double worstSoFarFValue = Double.POSITIVE_INFINITY;
+
+        for (Individual<A> individual : population) {
+            double fValue = fitnessFn.apply(individual);
+            if (fValue < worstSoFarFValue) {
+                worstIndividual = individual;
+                worstSoFarFValue = fValue;
+            }
+        }
+
+        return worstIndividual;
+    }
+
     /**
      * Sets the population size and number of iterations to zero.
      */
@@ -237,8 +253,13 @@ public class GeneticAlgorithmSelAtt<A> {
     protected List<Individual<A>> nextGeneration(List<Individual<A>> population, FitnessFunction<A> fitnessFn) {
         // new_population <- empty set
         List<Individual<A>> newPopulation = new ArrayList<Individual<A>>(population.size());
+        //get best individual and add it to the new population
+        Individual<A> bestIndividual = retrieveBestIndividual(population, fitnessFn);
+        Individual<A> worstIndividual = retrieveWorstIndividual(population, fitnessFn);
+        double worstFitness = fitnessFn.apply(worstIndividual);
+        newPopulation.add(bestIndividual);
         // for i = 1 to SIZE(population) do
-        for (int i = 0; i < population.size(); i++) {
+        for (int i = 1; i < population.size(); i++) {
             // x <- RANDOM-SELECTION(population, FITNESS-FN)
             Individual<A> x = randomSelection(population, fitnessFn);
             // y <- RANDOM-SELECTION(population, FITNESS-FN)
@@ -249,8 +270,11 @@ public class GeneticAlgorithmSelAtt<A> {
             if (random.nextDouble() <= mutationProbability) {
                 child = mutate(child);
             }
-            // add child to new_population
-            newPopulation.add(child);
+
+            if (fitnessFn.apply(child) > worstFitness) {
+                // add child to new_population
+                newPopulation.add(child);
+            }
         }
         notifyProgressTracers(getIterations(), population);
         return newPopulation;
@@ -288,17 +312,27 @@ public class GeneticAlgorithmSelAtt<A> {
     // function REPRODUCE(x, y) returns an individual
     // inputs: x, y, parent individuals
     protected Individual<A> reproduce(Individual<A> x, Individual<A> y) {
-        // n <- LENGTH(x);
-        // Note: this is = this.individualLength
-        // c <- random number from 1 to n
-        int c = randomOffset(individualLength);
-        // return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
+
         List<A> childRepresentation = new ArrayList<A>();
-        childRepresentation.addAll(x.getRepresentation().subList(0, c));
-        childRepresentation.addAll(y.getRepresentation().subList(c, individualLength));
+        Iterator<A> itFather = x.getRepresentation().iterator();
+        Iterator<A> itMother = y.getRepresentation().iterator();
+
+        //iterate thru both parents and chose randomly from who to pick a gen
+        while (itFather.hasNext() && itMother.hasNext()) {
+
+            if (Math.random() > 0.5) {
+                childRepresentation.add(itFather.next());
+                itMother.next();
+            } else {
+                childRepresentation.add(itMother.next());
+                itFather.next();
+            }
+
+        }
 
         Individual<A> child = new Individual<A>(childRepresentation);
         return child;
+
     }
 
     protected Individual<A> mutate(Individual<A> child) {

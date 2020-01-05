@@ -5,6 +5,7 @@
  */
 package aima.core.environment.selatt;
 
+import aima.core.search.framework.problem.GoalTest;
 import aima.core.search.local.FitnessFunction;
 import aima.core.search.local.Individual;
 import java.util.ArrayList;
@@ -22,10 +23,14 @@ public class SelAttGenAlgoUtil {
         return new SelAttFitnessFunction();
     }
 
+    public static GoalTest getGoalTest() {
+        return new SelAttGoalTest();
+    }
+
     public static Individual<Integer> generateRandomIndividual(int boardSize) {
         List<Integer> individualRepresentation = new ArrayList<Integer>();
         for (int i = 0; i < boardSize; i++) {
-            individualRepresentation.add(new Random().nextInt(1));
+            individualRepresentation.add(new Random().nextInt(2));
         }
         Individual<Integer> individual = new Individual<Integer>(individualRepresentation);
         return individual;
@@ -45,11 +50,10 @@ public class SelAttGenAlgoUtil {
 
         public double apply(Individual<Integer> individual) {
             double fitness = 0;
-
             SelAttBoard board = getBoardForIndividual(individual);
             int[] boardState = board.getState();
-            int[] selectedAtt = {};
-            int aux = 0;
+            int[] selectedAtt = new int[boardState.length];
+            int numAtt = 0;
 
             /*
              search attributes that are 1
@@ -57,53 +61,66 @@ public class SelAttGenAlgoUtil {
             for (int i = 0; i < boardState.length; i++) {
 
                 if (boardState[i] == 1) {
-                    selectedAtt[aux] = i;
-                    aux++;
+                    selectedAtt[numAtt] = i;
+                    numAtt++;
                 }
             }
 
-            int medAtt = 0;
-            int medClass = 0;
-            int numCorr = 0;
-            int numCorrClass = 0;
+            double medAtt = 0;
+            double medClass = 0;
+            double numCorr = 0;
+            double numCorrClass = 0;
 
-            for (int i = 0; i < selectedAtt.length; i++) {
+            if (numAtt > 1) {
 
-                medClass += board.getCorrelationClass(selectedAtt[i]);
-                numCorrClass++;
+                for (int i = 0; i < numAtt; i++) {
 
-                if (i < selectedAtt.length - 1) {
+                    medClass += board.getCorrelationClass(selectedAtt[i]);
+                    numCorrClass++;
 
-                    for (int j = i + 1; j < selectedAtt.length; j++) {
+                    if (i < numAtt - 1) {
 
-                        medAtt += board.getCorrelationAtt(selectedAtt[i], selectedAtt[j]);
-                        numCorr++;
+                        for (int j = i + 1; j < numAtt; j++) {
+
+                            medAtt += board.getCorrelationAtt(selectedAtt[i], selectedAtt[j]);
+                            numCorr++;
+                        }
                     }
                 }
+            } else {
+                numAtt = 1;
+                numCorr = 1;
+                medAtt = 1;
+                medClass = board.getCorrelationClass(selectedAtt[0]);
             }
 
             // calculamos la media
             medAtt = medAtt / numCorr;
             medClass = medClass / numCorrClass;
-            int numAtt = selectedAtt.length;
 
             fitness = (numAtt * medClass) / Math.sqrt(numAtt + numAtt * (numAtt - 1) * medAtt);
 
             return fitness;
         }
     }
+    
+     public static SelAttBoard getBoardForIndividual(Individual<Integer> individual) {
 
-    public static SelAttBoard getBoardForIndividual(Individual<Integer> individual) {
-        int boardSize = individual.length();
-        int newState[] = {};
-        for (int i = 0; i < boardSize; i++) {
-            int pos = individual.getRepresentation().get(i);
-            newState[i] = pos;
-        }
+     int boardSize = individual.length();
 
-        SelAttBoard board = new SelAttBoard(newState);
+     System.out.println("");
+     int newState[] = new int[boardSize];
+     for (int i = 0; i < boardSize; i++) {
+     int pos = individual.getRepresentation().get(i);
+     newState[i] = pos;
+     }
 
-        return board;
-    }
+     SelAttBoard board = new SelAttBoard(newState);
+
+     return board;
+
+     }
+
+   
 
 }
