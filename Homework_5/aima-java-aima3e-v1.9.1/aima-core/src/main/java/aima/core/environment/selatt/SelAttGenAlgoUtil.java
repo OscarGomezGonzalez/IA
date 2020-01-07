@@ -104,30 +104,13 @@ public class SelAttGenAlgoUtil {
             return fitness;
         }
     }
-    /*
-     public static SelAttBoard getBoardForIndividual(Individual<Integer> individual) {
-
-     int boardSize = individual.length();
-
-     //System.out.println("");
-     int newState[] = new int[boardSize];
-     for (int i = 0; i < boardSize; i++) {
-     int pos = individual.getRepresentation().get(i);
-     newState[i] = pos;
-     }
-
-     SelAttBoard board = new SelAttBoard(newState);
-
-     return board;
-
-     }*/
 
     public static SelAttBoard getBoardForIndividual(Individual<Integer> individual) {
         int boardSize = individual.length();
         SelAttBoard board = new SelAttBoard();
         for (int i = 0; i < boardSize; i++) {
             if (individual.getRepresentation().get(i) == 1) {
-                board.SelAtribute(i);
+                board.SetAtribute(i);
             }
         }
         return board;

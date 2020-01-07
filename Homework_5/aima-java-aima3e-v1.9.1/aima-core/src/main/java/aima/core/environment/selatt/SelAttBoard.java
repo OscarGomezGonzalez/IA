@@ -38,8 +38,8 @@ public class SelAttBoard {
         this(copyBoard.getState());
     }
 
-    public void SelAtribute(int i) {
-        state[i] = 1 - state[i];
+    public void SetAtribute(int i) {
+        state[i] = 1;
     }
 
     public int getNumAtt() {
