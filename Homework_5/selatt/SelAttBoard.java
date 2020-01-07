@@ -38,10 +38,6 @@ public class SelAttBoard {
         this(copyBoard.getState());
     }
 
-    public void SelAtribute(int i) {
-        state[i] = 1 - state[i];
-    }
-
     public int getNumAtt() {
         return correlationsAtt[0].length;
     }
@@ -153,4 +149,5 @@ public class SelAttBoard {
         return retVal;
     }
 
+    
 }

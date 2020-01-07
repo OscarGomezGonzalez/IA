@@ -260,24 +260,20 @@ public class GeneticAlgorithmSelAtt<A> {
         newPopulation.add(bestIndividual);
         // for i = 1 to SIZE(population) do
         for (int i = 1; i < population.size(); i++) {
-            boolean enc = false;
-            while (!enc) {
-                // x <- RANDOM-SELECTION(population, FITNESS-FN)
-                Individual<A> x = randomSelection(population, fitnessFn);
-                // y <- RANDOM-SELECTION(population, FITNESS-FN)
-                Individual<A> y = randomSelection(population, fitnessFn);
-                // child <- REPRODUCE(x, y)
-                Individual<A> child = reproduce(x, y);
-                // if (small random probability) then child <- MUTATE(child)
-                if (random.nextDouble() <= mutationProbability) {
-                    child = mutate(child);
-                }
-                if (fitnessFn.apply(child) >= worstFitness) {
+            // x <- RANDOM-SELECTION(population, FITNESS-FN)
+            Individual<A> x = randomSelection(population, fitnessFn);
+            // y <- RANDOM-SELECTION(population, FITNESS-FN)
+            Individual<A> y = randomSelection(population, fitnessFn);
+            // child <- REPRODUCE(x, y)
+            Individual<A> child = reproduce(x, y);
+            // if (small random probability) then child <- MUTATE(child)
+            if (random.nextDouble() <= mutationProbability) {
+                child = mutate(child);
+            }
 
-                    enc = true;
-                    // add child to new_population
-                    newPopulation.add(child);
-                }
+            if (fitnessFn.apply(child) > worstFitness) {
+                // add child to new_population
+                newPopulation.add(child);
             }
         }
         notifyProgressTracers(getIterations(), population);
